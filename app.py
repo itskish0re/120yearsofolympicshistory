@@ -1,6 +1,8 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 import helper
 import preprocessor
@@ -33,7 +35,7 @@ if user_menu == "Medal Tally":
     st.table(medal_tally)
 
 if user_menu == "Overall Analysis":
-    edition = df["Year"].unique().shape[0]-1
+    edition = df["Year"].unique().shape[0] - 1
     cities = df["City"].unique().shape[0]
     sports = df["Sport"].unique().shape[0]
     events = df["Event"].unique().shape[0]
@@ -77,3 +79,11 @@ if user_menu == "Overall Analysis":
     fig = px.line(athletes_over_time, x="Edition", y="Name")
     st.title("Athletes over the years")
     st.plotly_chart(fig)
+
+    st.title("No. of events over time(Every Sport)")
+    fig, ax = plt.subplots(figsize=(20, 20))
+    x = df.drop_duplicates(["Year", "Sport", "Event"])
+    ax = sns.heatmap(
+        x.pivot_table(index="Sport", columns="Year", values="Event", aggfunc="count").fillna(0).astype("int"),
+        annot=True)
+    st.pyplot(fig)

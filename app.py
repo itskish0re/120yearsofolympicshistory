@@ -63,7 +63,12 @@ if user_menu == "Overall Analysis":
         st.header("Nations")
         st.title(nations)
 
+    nations_over_time = helper.data_over_time(df, "region")
+    fig = px.line(nations_over_time, x="Edition", y="region")
     st.title("Participationg nations over years")
-    nations_over_time = helper.participation_nations_over_time(df)
-    fig = px.line(nations_over_time, x="Edition", y="No. of Countries")
+    st.plotly_chart(fig)
+
+    events_over_time = helper.data_over_time(df, "Event")
+    fig = px.line(events_over_time, x="Edition", y="Event")
+    st.title("Events over the years")
     st.plotly_chart(fig)

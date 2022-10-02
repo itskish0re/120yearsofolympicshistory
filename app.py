@@ -62,3 +62,8 @@ if user_menu == "Overall Analysis":
     with col3:
         st.header("Nations")
         st.title(nations)
+
+    st.title("Participationg nations over years")
+    nations_over_time = helper.participation_nations_over_time(df)
+    fig = px.line(nations_over_time, x="Edition", y="No. of Countries")
+    st.plotly_chart(fig)
